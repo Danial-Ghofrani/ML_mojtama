@@ -37,9 +37,9 @@ lin_all_predict = lin_model.predict(X)
 lasso_all_predict = lasso_model.predict(X)
 ridge_all_predict = ridge_model.predict(X)
 
-lin_train_predict = lin_model.predict(x_test)
-lasso_train_predict = lasso_model.predict(x_test)
-ridge_train_predict = ridge_model.predict(x_test)
+lin_train_predict = lin_model.predict(x_train)
+lasso_train_predict = lasso_model.predict(x_train)
+ridge_train_predict = ridge_model.predict(x_train)
 
 
 lin_test_predict = lin_model.predict(x_test)
@@ -51,28 +51,40 @@ ridge_test_predict = ridge_model.predict(x_test)
 ### evaluating
 error = root_mean_squared_error
 
-rmse_linear_train = error(lin_train_predict, y_train)
-rmse_linear_test = error(lin_test_predict, y_test)
-rmse_linear_all = error(lin_all_predict, y)
+rmse_linear_train = error(y_train, lin_train_predict)
+rmse_linear_test = error(y_test ,lin_test_predict)
+rmse_linear_all = error(y, lin_all_predict)
 
-rmse_lasso_train = error(lasso_train_predict, y_train)
-rmse_lasso_test = error(lasso_test_predict, y_test)
-rmse_lasso_all = error(lasso_all_predict, y)
+rmse_lasso_train = error(y_train, lasso_train_predict)
+rmse_lasso_test = error(y_test, lasso_test_predict)
+rmse_lasso_all = error(y, lasso_all_predict)
+
+rmse_ridge_train = error(y_train, ridge_train_predict)
+rmse_ridge_test = error(y_test, ridge_test_predict)
+rmse_ridge_all = error(y, ridge_all_predict)
 
 
 
 
-print(f"the rmse for the lin model: {},"
-      f" the rmse for the lasso model: {},"
-      f" the rmse for the ridge model: {}")
 
+print(f"the rmse for the lin model in test data: {rmse_linear_test},"
+      f" the rmse for the lasso model in test data: {rmse_lasso_test},"
+      f" the rmse for the ridge model in test data: {rmse_ridge_test}")
+
+print(f"the rmse for the lin model in train data: {rmse_linear_train},"
+      f" the rmse for the lasso model in train data: {rmse_lasso_train},"
+      f" the rmse for the ridge model in train data: {rmse_ridge_train}")
+
+print(f"the rmse for the lin model in all data: {rmse_linear_all},"
+      f" the rmse for the lasso model in all data: {rmse_lasso_all},"
+      f" the rmse for the ridge model in all data: {rmse_ridge_all}")
 
 
 ### plotting and visualizations
 plt.plot(X, y, "g",label = "Real Data")
-plt.plot(X, lin_predict, "r", label =  "Linear model")
-plt.plot(X, lasso_predict, "b", label = "lasso model")
-plt.plot(X, ridge_predict, "y", label = "ridge model")
+plt.plot(X, lin_all_predict, "r", label =  "Linear model")
+plt.plot(X, lasso_all_predict, "b", label = "lasso model")
+plt.plot(X, ridge_all_predict, "y", label = "ridge model")
 
 plt.show()
 
