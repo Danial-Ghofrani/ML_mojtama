@@ -67,39 +67,76 @@ from sklearn.linear_model import Lasso, Ridge
 
 
 ## part two
+# btc = yf.download("BTC-USD")
+# print(btc.columns)
+#
+#
+# X = btc[["Open", "Low", "High"]]
+# y = btc["Close"]
+#
+# x_train, x_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, shuffle = False)
+#
+# # creating model
+# model = LinearRegression()
+#
+#
+#
+# # training data
+# model.fit(x_train, y_train)
+#
+# #  evaluating model
+# y_pred = model.predict(x_test)
+# print(root_mean_squared_error(y_test, y_pred))
+#
+# slope = model.coef_
+# bias = model.intercept_
+#
+# print(f"y{slope}.X + {bias}")
+#
+#
+# # visualization
+#
+# predict = model.predict(X)
+#
+# plt.plot(y.values, "g", label = "real data" )
+# plt.plot(predict, "b--", label = "prediction")
+#
+# plt.legend()
+# plt.show()
+
+
+
+
+
+
+
+#### part three
 btc = yf.download("BTC-USD")
 print(btc.columns)
 
 
-X = btc[["Open", "Low", "High"]]
+X = np.arange(len(btc))
 y = btc["Close"]
 
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, shuffle = False)
 
-# creating model
-model = LinearRegression()
+# create and train model
+model = np.poly1d(np.polyfit(x_train, y_train, 2))
 
-
-
-# training data
-model.fit(x_train, y_train)
 
 #  evaluating model
-y_pred = model.predict(x_test)
-print(root_mean_squared_error(y_test, y_pred))
+# y_pred = model.predict(x_test)
+# print(root_mean_squared_error(y_test, y_pred))
 
-slope = model.coef_
-bias = model.intercept_
 
-print(f"y{slope}.X + {bias}")
 
 
 # visualization
 
-predict = model.predict(X)
+predict = model(X)
 
-plt.plot(y.values, "g", label = "real data" )
-plt.plot(predict, "b--", label = "prediction")
+plt.plot(X, y, "g", label = "real data" )
+plt.plot(X, predict, "b--", label = "prediction")
 
 plt.legend()
 plt.show()
@@ -108,7 +145,35 @@ plt.show()
 
 
 
-#### part three
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## data cleaning
 #
 # btc = yf.download("BTC-USD")
