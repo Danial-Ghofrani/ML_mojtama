@@ -80,6 +80,8 @@ print(f"the rmse for the lin model in all data: {rmse_linear_all},"
       f" the rmse for the ridge model in all data: {rmse_ridge_all}")
 
 
+
+
 ### plotting and visualizations
 plt.plot(X, y, "g",label = "Real Data")
 plt.plot(X, lin_all_predict, "r", label =  "Linear model")
