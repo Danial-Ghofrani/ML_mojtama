@@ -15,12 +15,14 @@ X = btc[["Open", "Close", "High", "Low"]].values
 y = btc["shifted_close"].values
 
 
+x_c = np.arange(len(btc))
 
 
 
 
 
-x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.05, shuffle=False)
 lin_model = LinearRegression()
 lasso_model = Lasso()
 ridge_model = Ridge()
@@ -83,10 +85,10 @@ print(f"the rmse for the lin model in all data: {rmse_linear_all},"
 
 
 ### plotting and visualizations
-plt.plot(X, y, "g",label = "Real Data")
-plt.plot(X, lin_all_predict, "r", label =  "Linear model")
-plt.plot(X, lasso_all_predict, "b", label = "lasso model")
-plt.plot(X, ridge_all_predict, "y", label = "ridge model")
+plt.plot(x_c, y_test, "g",label = "Real Data")
+plt.plot(x_c, lin_test_predict, "r", label =  "Linear model")
+plt.plot(x_c, lasso_test_predict, "b", label = "lasso model")
+plt.plot(x_c, ridge_test_predict, "orange", label = "ridge model")
 
 plt.show()
 
