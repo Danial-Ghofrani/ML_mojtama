@@ -23,6 +23,10 @@ x_c = np.arange(len(btc))
 
 
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.05, shuffle=False)
+
+x_c_t = np.arange(len(x_test))
+
+
 lin_model = LinearRegression()
 lasso_model = Lasso()
 ridge_model = Ridge()
@@ -85,10 +89,12 @@ print(f"the rmse for the lin model in all data: {rmse_linear_all},"
 
 
 ### plotting and visualizations
-plt.plot(x_c, y_test, "g",label = "Real Data")
-plt.plot(x_c, lin_test_predict, "r", label =  "Linear model")
-plt.plot(x_c, lasso_test_predict, "b", label = "lasso model")
-plt.plot(x_c, ridge_test_predict, "orange", label = "ridge model")
+plt.plot(x_c_t, y_test, "g",label = "Real Data")
+plt.plot(x_c_t, lin_test_predict, "r", label =  "Linear model")
+plt.plot(x_c_t, lasso_test_predict, "b", label = "lasso model")
+plt.plot(x_c_t, ridge_test_predict, "orange", label = "ridge model")
 
+
+plt.legend()
 plt.show()
 
