@@ -284,7 +284,7 @@ from sklearn.metrics import accuracy_score
 
 
 ### part eight
-from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_curve, classification_report
 
 
 df = pd.read_csv("diabetes.csv")
@@ -299,6 +299,9 @@ x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle
 model = LogisticRegression(max_iter=5000, warm_start=True)
 
 model.fit(x_train, y_train)
+
+y_pred_test = model.predict(x_test)
+print(classification_report(y_test, y_pred_test))
 
 
 y_test_pred_proba = model.predict_proba(x_test)[:,1]
