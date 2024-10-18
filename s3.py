@@ -240,49 +240,80 @@ from sklearn.metrics import accuracy_score
 
 
 
-### part seven
+# ### part seven
+#
+# df = pd.read_csv("diabetes.csv")
+# X = df.drop(columns="Outcome")
+# y = df["Outcome"]
+#
+#
+#
+# x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, stratify=y)
+#
+#
+# model = LogisticRegression(max_iter=5000)
+#
+# model.fit(x_train, y_train)
+#
+#
+# predict = model.predict(X)
+# train_pred = model.predict(x_train)
+# test_pred = model.predict(x_test)
+#
+# # print(accuracy_score(y, predict))
+# # print(accuracy_score(y_train, train_pred))
+# print(accuracy_score(y_test, test_pred))
+#
+#
+#
+# import pickle
+#
+# with open("model.dat", "wb") as file:
+#     pickle.dump(model, file)
+#
+#
+#
+# with open("model.dat", "rb") as file:
+#     model = pickle.load(file)
+#
+# print(model.predict([[10, 168, 74, 0, 0, 38, 0.537, 34]]))
+# print(model.predict_proba([[10, 168, 74, 0, 0, 38, 0.537, 34]]))
+
+
+
+
+
+### part eight
+from sklearn.metrics import roc_curve
+
 
 df = pd.read_csv("diabetes.csv")
 X = df.drop(columns="Outcome")
 y = df["Outcome"]
 
-
+print(np.unique(y))
 
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, stratify=y)
 
 
-model = LogisticRegression(max_iter=5000)
+model = LogisticRegression(max_iter=5000, warm_start=True)
 
 model.fit(x_train, y_train)
 
 
-predict = model.predict(X)
-train_pred = model.predict(x_train)
-test_pred = model.predict(x_test)
+y_test_pred_proba = model.predict_proba(x_test)[:,1]
 
-# print(accuracy_score(y, predict))
-# print(accuracy_score(y_train, train_pred))
-print(accuracy_score(y_test, test_pred))
+fpr, tpr, threshold = roc_curve(y_test, y_test_pred_proba)
 
+plt.plot(fpr, tpr, label = "Logistic Regression")
+plt.plot([0,1], [0,1], "k--")
 
+plt.xlim([0,1])
+plt.ylim([0,1])
 
-import pickle
+plt.xlabel("False Positive Rate (FPR)")
+plt.ylabel("True Postive Rate (TPR)")
 
-with open("model.dat", "wb") as file:
-    pickle.dump(model, file)
+plt.title("Receiver operating characteristic (ROC Curve)")
 
-
-
-with open("model.dat", "wb") as file:
-    model = pickle.load(file)
-
-print(model.predict([[10, 168, 74, 0, 0, 38, 0.537, 34]]))
-print(model.predict_proba([[10, 168, 74, 0, 0, 38, 0.537, 34]]))
-
-
-
-
-
-
-
-
+plt.show()
