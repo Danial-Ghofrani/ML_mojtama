@@ -285,18 +285,28 @@ from sklearn.metrics import accuracy_score
 
 ### part eight
 from sklearn.metrics import roc_curve, classification_report
+from sklearn.preprocessing import StandardScaler
+import seaborn as sns
+from sklearn.feature_selection import VarianceThreshold
 
+VarianceThreshold(threshold=0.2)
 
 df = pd.read_csv("diabetes.csv")
-X = df.drop(columns="Outcome")
+
+### lets see if our results changes by dropping the age?!
+X = df.drop(columns=["Outcome", "Age"])
 y = df["Outcome"]
+
+scaler = StandardScaler()
+scaler.fit_transform(X)
+
 
 print(np.unique(y))
 
-x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, stratify=y)
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, stratify=y, random_state= 42)
 
 
-model = LogisticRegression(max_iter=5000, warm_start=True)
+model = LogisticRegression(max_iter=5000, warm_start=True, random_state=42)
 
 model.fit(x_train, y_train)
 
