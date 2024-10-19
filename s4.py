@@ -59,38 +59,51 @@ import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 import time
-X, y = make_blobs(n_samples=100, n_features=2, centers=2, cluster_std=1.5)
+from sklearn.metrics import classification_report, accuracy_score
+X, y = make_blobs(n_samples=100000, n_features=3, centers=4, cluster_std=6)
 
+print("SVM classifier")
 svm_start_time = time.time()
 svm_clf = SVC()
 svm_clf.fit(X,y)
 svm_end_time = time.time()
 svm_train_time = svm_end_time - svm_start_time
+print("Train Time: ", svm_train_time)
 
 start_time = time.time()
 svm_pred = svm_clf.predict(X)
 end_time = time.time()
 predict_time = end_time - start_time
+print("predict time: ", predict_time)
 
+print(classification_report(y, svm_pred))
+print("-------------------------------------------------------")
+
+print("Logistic Regression")
 reg_start_time = time.time()
 reg_clf = LogisticRegression()
 reg_clf.fit(X, y)
 reg_end_time = time.time()
 reg_train_time = reg_end_time - reg_start_time
+print("Train time: ", reg_train_time)
 
 start_time = time.time()
 reg_pred = reg_clf.predict(X)
 end_time = time.time()
 predict_time = end_time - start_time
+print("Predict time: ", predict_time)
 
-plt.subplot(1,2,1)
-plt.scatter(X[:,0], X[:,1], c=y)
+print(classification_report(y, reg_pred))
+print("------------------------------------------------")
 
-pred = clf.predict(X)
 
-plt.subplot(1,2,2)
-plt.scatter(X[:,0], X[:,1], c=pred)
-plt.show()
+
+# plt.subplot(1,2,1)
+# plt.scatter(X[:,0], X[:,1], c=y)
+#
+# plt.subplot(1,2,2)
+# plt.scatter(X[:,0], X[:,1], c=pred)
+# plt.show()
 
 
 # X, y = make_blobs(n_samples = 100, n_features=2, centers=2, cluster_std=1.2)
