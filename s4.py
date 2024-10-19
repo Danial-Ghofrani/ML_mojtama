@@ -60,43 +60,52 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 import time
 from sklearn.metrics import classification_report, accuracy_score
-X, y = make_blobs(n_samples=100000, n_features=3, centers=4, cluster_std=6)
 
-print("SVM classifier")
-svm_start_time = time.time()
-svm_clf = SVC()
-svm_clf.fit(X,y)
-svm_end_time = time.time()
-svm_train_time = svm_end_time - svm_start_time
-print("Train Time: ", svm_train_time)
+for co in [10, 50, 100, 500, 1000, 2000, 5000, 10000, 20000]:
+    print(f"count {co}")
+    X, y = make_blobs(n_samples=co, n_features=3, centers=4, cluster_std=6)
 
-start_time = time.time()
-svm_pred = svm_clf.predict(X)
-end_time = time.time()
-predict_time = end_time - start_time
-print("predict time: ", predict_time)
+    svm_report = []
+    print("SVM classifier")
+    svm_start_time = time.time()
+    svm_clf = SVC(verbose=1)
+    svm_clf.fit(X,y)
+    svm_end_time = time.time()
+    svm_train_time = svm_end_time - svm_start_time
+    svm_report.append(svm_train_time)
+    print("Train Time: ", svm_train_time)
 
-print(classification_report(y, svm_pred))
-print("-------------------------------------------------------")
+    start_time = time.time()
+    svm_pred = svm_clf.predict(X)
+    end_time = time.time()
+    predict_time = end_time - start_time
+    print("predict time: ", predict_time)
 
-print("Logistic Regression")
-reg_start_time = time.time()
-reg_clf = LogisticRegression()
-reg_clf.fit(X, y)
-reg_end_time = time.time()
-reg_train_time = reg_end_time - reg_start_time
-print("Train time: ", reg_train_time)
+    print(classification_report(y, svm_pred))
+    print("-------------------------------------------------------")
 
-start_time = time.time()
-reg_pred = reg_clf.predict(X)
-end_time = time.time()
-predict_time = end_time - start_time
-print("Predict time: ", predict_time)
+    log_reg_report = []
+    print("Logistic Regression")
+    reg_start_time = time.time()
+    reg_clf = LogisticRegression(verbose=1)
+    reg_clf.fit(X, y)
+    reg_end_time = time.time()
+    reg_train_time = reg_end_time - reg_start_time
+    log_reg_report.append(reg_train_time)
+    print("Train time: ", reg_train_time)
 
-print(classification_report(y, reg_pred))
-print("------------------------------------------------")
+    start_time = time.time()
+    reg_pred = reg_clf.predict(X)
+    end_time = time.time()
+    predict_time = end_time - start_time
+    print("Predict time: ", predict_time)
 
+    print(classification_report(y, reg_pred))
+    print("------------------------------------------------")
 
+    plt.plot(svm_report)
+    plt.plot(log_reg_report)
+    plt.sow
 
 # plt.subplot(1,2,1)
 # plt.scatter(X[:,0], X[:,1], c=y)
