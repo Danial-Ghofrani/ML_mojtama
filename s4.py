@@ -8,6 +8,90 @@ import numpy as np
 import pandas as pd
 
 
+### Part One
+# X, y = make_blobs(n_samples=100, n_features=2, centers=3, cluster_std=7)
+#
+#
+# # plt.scatter(X[:,0], X[:,1], c=y)
+# # plt.show()
+#
+# fig = plt.figure()
+#
+# ax = fig.add_subplot(111, projection= "3d")
+# ax.scatter(X[:,0], X[:,1], c=y)
+#
+# plt.show()
+
+
+
+
+#### part two
+# X, y = make_blobs(n_samples=100, n_features=2, centers=2, cluster_std=1.5)
+#
+# clf = SVC(kernel="rbf", C = 0.5, verbose=1)
+#
+# clf.fit(X,y)
+#
+# plt.subplot(1,2,1)
+# plt.scatter(X[:,0], X[:,1], c=y)
+#
+# pred = clf.predict(X)
+#
+# plt.subplot(1,2,2)
+# plt.scatter(X[:,0], X[:,1], c=pred)
+# plt.show()
+
+
+# plt.scatter(X[:,0], X[:,1], c=y)
+# plt.show()
+
+# fig = plt.figure()
+#
+# ax = fig.add_subplot(111, projection= "3d")
+# ax.scatter(X[:,0], X[:,1], c=y)
+#
+# plt.show()
+
+
+#### part three
+from sklearn.datasets import make_blobs
+import matplotlib.pyplot as plt
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+import time
+X, y = make_blobs(n_samples=100, n_features=2, centers=2, cluster_std=1.5)
+
+svm_start_time = time.time()
+svm_clf = SVC()
+svm_clf.fit(X,y)
+svm_end_time = time.time()
+svm_train_time = svm_end_time - svm_start_time
+
+start_time = time.time()
+svm_pred = svm_clf.predict(X)
+end_time = time.time()
+predict_time = end_time - start_time
+
+reg_start_time = time.time()
+reg_clf = LogisticRegression()
+reg_clf.fit(X, y)
+reg_end_time = time.time()
+reg_train_time = reg_end_time - reg_start_time
+
+start_time = time.time()
+reg_pred = reg_clf.predict(X)
+end_time = time.time()
+predict_time = end_time - start_time
+
+plt.subplot(1,2,1)
+plt.scatter(X[:,0], X[:,1], c=y)
+
+pred = clf.predict(X)
+
+plt.subplot(1,2,2)
+plt.scatter(X[:,0], X[:,1], c=pred)
+plt.show()
+
 
 # X, y = make_blobs(n_samples = 100, n_features=2, centers=2, cluster_std=1.2)
 #
@@ -18,7 +102,6 @@ import pandas as pd
 #
 #
 # plt.subplot(1,2,2)
-# plt.s
 
 
 
@@ -68,21 +151,21 @@ import pandas as pd
 
 
 
-X, y = make_blobs(n_samples=100, n_features=3, centers=4, random_state=32)
-
-
-clf = SVC(C = 5, kernel="linear", random_state=32)
-clf.fit(X, y)
-
-w = clf.coef_
-b = clf.intercept_
-
-print(w)
-print(b)
-
-
-
-xx, yy = np.meshgrid(
-    np.linspace(X[:, 0].min() -1, X[:, 0].max()
-                )
-)
+# X, y = make_blobs(n_samples=100, n_features=3, centers=4, random_state=32)
+#
+#
+# clf = SVC(C = 5, kernel="linear", random_state=32)
+# clf.fit(X, y)
+#
+# w = clf.coef_
+# b = clf.intercept_
+#
+# print(w)
+# print(b)
+#
+#
+#
+# xx, yy = np.meshgrid(
+#     np.linspace(X[:, 0].min() -1, X[:, 0].max()
+#                 )
+# )
