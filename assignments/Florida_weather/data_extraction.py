@@ -70,7 +70,7 @@ class Weather:
 
         df = pd.read_csv(f"{self.city}_weather_data.csv")
         df["flood"] = df.apply(self.is_flood, axis=1)
-        df.drop(columns="time")
+        df.drop(columns="time", inplace=True)
 
 
         df.to_csv("final_flood_data.csv", index=False)
@@ -94,10 +94,10 @@ class Weather:
 mi_Weather = Weather("miami")
 # # mi_Weather.get_openmeteo_data(url=url, params=params)
 
-# mi_Weather.load_and_compute_thresholds()
-# mi_Weather.flood_column()
+mi_Weather.load_and_compute_thresholds()
+mi_Weather.flood_column()
 
-data = pd.read_csv("final_flood_data.csv")
-print(data[data["flood"] == 0])
+# data = pd.read_csv("final_flood_data.csv")
+# print(data[data["flood"] == 0])
 
 
