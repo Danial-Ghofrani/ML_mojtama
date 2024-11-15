@@ -70,6 +70,7 @@ class Weather:
 
         df = pd.read_csv(f"{self.city}_weather_data.csv")
         df["flood"] = df.apply(self.is_flood, axis=1)
+        df.drop(columns="time")
 
 
         df.to_csv("final_flood_data.csv", index=False)
