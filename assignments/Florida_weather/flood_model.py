@@ -1,12 +1,9 @@
+import pandas as pd
 import matplotlib.pyplot as plt
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import confusion_matrix, accuracy_score, f1_score, roc_curve, auc
-
-import pandas as pd
-import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, accuracy_score, f1_score, roc_curve, auc
 
 df = pd.read_csv("final_flood_data.csv")
 # There are some Nan rows. We need to replace or drop them, so we don't get any error during fit.
@@ -40,7 +37,7 @@ def finding_best_solver():
 
 
     for solver in solvers:
-        LR_model = LogisticRegression(max_iter=3000,solver = solver)
+        LR_model = LogisticRegression(max_iter=3000,solver = solver, random_state=23)
         LR_model.fit(x_train, y_train)
 
         ## evaluation:
@@ -55,46 +52,39 @@ def finding_best_solver():
         print(solver, accuracy_score(predict_x_test, y_test))
 
 
-def model_roc_curve():
-    LR_model = LogisticRegression(max_iter=3000)
+def model_evaluate_report():
+    LR_model = LogisticRegression(max_iter=3000, random_state=23)
     LR_model.fit(x_train, y_train)
     predict_x_test = LR_model.predict(x_test)
+
+    y_pred_test = LR_model.predict(x_test)
+    print(classification_report(y_test, y_pred_test))
+
     y_test_proba = LR_model.predict_proba(x_test)[:,1]
     fpr, tpr, threshold = roc_curve(y_test, y_test_proba)
     print("Plotting the ROC curve for label y =1 :")
     plt.plot(fpr, tpr, label = "Logistic regression")
     plt.plot([0,1], [0,1], "k--")
-
     plt.xlim([0,1])
     plt.ylim([0,1])
-
     plt.xlabel("False Positive Rate(FPR)")
     plt.ylabel("True Positive Rate(TPR)")
-
     plt.title("Receiver operating characteristics(ROC)")
-
     model_auc = auc(fpr, tpr)
     print(f"model's auc for y=1 is : {model_auc}")
-
-
 
     y_test_proba = LR_model.predict_proba(x_test)[:, 0]
     fpr, tpr, threshold = roc_curve(y_test, y_test_proba)
     print("Plotting the ROC curve for label y =0 :")
     plt.plot(fpr, tpr, label="Logistic regression")
     plt.plot([0, 1], [0, 1], "k--")
-
     plt.xlim([0, 1])
     plt.ylim([0, 1])
-
     plt.xlabel("False Positive Rate(FPR)")
     plt.ylabel("True Positive Rate(TPR)")
-
     plt.title("Receiver operating characteristics(ROC)")
-
     model_auc = auc(fpr, tpr)
     print(f"model's auc for y = 0 is : {model_auc}")
-
 
     plt.show()
 
@@ -103,4 +93,4 @@ def model_roc_curve():
 
 # finding_best_solver()
 
-model_roc_curve()
+model_evaluate_report()
