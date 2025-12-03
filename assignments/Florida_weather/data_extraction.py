@@ -5,6 +5,7 @@ import pandas as pd
 
 
 
+
 class Weather:
 
     def __init__(self, city):

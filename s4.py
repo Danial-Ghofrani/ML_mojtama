@@ -54,65 +54,136 @@ import pandas as pd
 
 
 #### part three
-from sklearn.datasets import make_blobs
-import matplotlib.pyplot as plt
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
-import time
-from sklearn.metrics import classification_report, accuracy_score
-
-for co in [10, 50, 100, 500, 1000, 2000, 5000, 10000, 20000]:
-    print(f"count {co}")
-    X, y = make_blobs(n_samples=co, n_features=3, centers=4, cluster_std=6)
-
-    svm_report = []
-    print("SVM classifier")
-    svm_start_time = time.time()
-    svm_clf = SVC(verbose=1)
-    svm_clf.fit(X,y)
-    svm_end_time = time.time()
-    svm_train_time = svm_end_time - svm_start_time
-    svm_report.append(svm_train_time)
-    print("Train Time: ", svm_train_time)
-
-    start_time = time.time()
-    svm_pred = svm_clf.predict(X)
-    end_time = time.time()
-    predict_time = end_time - start_time
-    print("predict time: ", predict_time)
-
-    print(classification_report(y, svm_pred))
-    print("-------------------------------------------------------")
-
-    log_reg_report = []
-    print("Logistic Regression")
-    reg_start_time = time.time()
-    reg_clf = LogisticRegression(verbose=1)
-    reg_clf.fit(X, y)
-    reg_end_time = time.time()
-    reg_train_time = reg_end_time - reg_start_time
-    log_reg_report.append(reg_train_time)
-    print("Train time: ", reg_train_time)
-
-    start_time = time.time()
-    reg_pred = reg_clf.predict(X)
-    end_time = time.time()
-    predict_time = end_time - start_time
-    print("Predict time: ", predict_time)
-
-    print(classification_report(y, reg_pred))
-    print("------------------------------------------------")
-
-    plt.plot(svm_report)
-    plt.plot(log_reg_report)
-    plt.sow
-
-# plt.subplot(1,2,1)
-# plt.scatter(X[:,0], X[:,1], c=y)
+# from sklearn.datasets import make_blobs
+# import matplotlib.pyplot as plt
+# from sklearn.svm import SVC
+# from sklearn.linear_model import LogisticRegression
+# import time
+# from sklearn.metrics import classification_report, accuracy_score
 #
-# plt.subplot(1,2,2)
-# plt.scatter(X[:,0], X[:,1], c=pred)
-# plt.show()
+# for co in [10, 50, 100, 500, 1000, 2000, 5000, 10000, 20000]:
+#     print(f"count {co}")
+#     X, y = make_blobs(n_samples=co, n_features=3, centers=4, cluster_std=6)
+#
+#     svm_report = []
+#     print("SVM classifier")
+#     svm_start_time = time.time()
+#     svm_clf = SVC(verbose=1)
+#     svm_clf.fit(X,y)
+#     svm_end_time = time.time()
+#     svm_train_time = svm_end_time - svm_start_time
+#     svm_report.append(svm_train_time)
+#     print("Train Time: ", svm_train_time)
+#
+#     start_time = time.time()
+#     svm_pred = svm_clf.predict(X)
+#     end_time = time.time()
+#     predict_time = end_time - start_time
+#     print("predict time: ", predict_time)
+#
+#     print(classification_report(y, svm_pred))
+#     print("-------------------------------------------------------")
+#
+#     log_reg_report = []
+#     print("Logistic Regression")
+#     reg_start_time = time.time()
+#     reg_clf = LogisticRegression(verbose=1)
+#     reg_clf.fit(X, y)
+#     reg_end_time = time.time()
+#     reg_train_time = reg_end_time - reg_start_time
+#     log_reg_report.append(reg_train_time)
+#     print("Train time: ", reg_train_time)
+#
+#     start_time = time.time()
+#     reg_pred = reg_clf.predict(X)
+#     end_time = time.time()
+#     predict_time = end_time - start_time
+#     print("Predict time: ", predict_time)
+#
+#     print(classification_report(y, reg_pred))
+#     print("------------------------------------------------")
+#
+#     plt.plot(svm_report)
+#     plt.plot(log_reg_report)
+#     plt.sow
+
+
+
+
+# ### part four
+from sklearn.datasets import make_blobs
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+
+params = {"kernel" : ["linear", "poly", "rbf", "sigmoid"],
+        "C" : [0.01, 0.1, 1, 10, 100]}
+
+X,y = make_blobs(n_samples=5000,
+    n_features=3,
+    centers=3,
+    cluster_std= 4,
+    random_state = 23 )
+
+clf = SVC(random_state=23)
+gs_model = GridSearchCV(estimator=clf, param_grid=params, cv=5, verbose=2)
+gs_model.fit(X, y)
+print(gs_model.best_params_)
+best_model = gs_model.best_estimator_
+
+
+
+# ### part five
+# from sklearn.svm import SVC
+# from sklearn.model_selection import GridSearchCV
+# from sklearn.datasets import make_classification
+# from sklearn.model_selection import train_test_split
+# from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+#
+# X, y = make_classification(
+#     n_samples=100,
+#     n_features=3,
+#     n_informative=3,
+#     n_redundant=0,
+#     random_state=23
+# )
+#
+# x_train , x_test, y_train, y_test = train_test_split(X,y, random_state=23)
+#
+#
+# param_grid = {"C": [0.001, 0.01, 1, 10, 100],
+#               "kernel": ["linear", "rbf", "poly", "sigmoid"]}
+#
+# svc_model = SVC()
+#
+# grid_search = GridSearchCV(estimator=svc_model, param_grid=param_grid, scoring={"accuracy": accuracy_score, "f1-score": f1_score(average="weighted")}, cv=5, n_jobs=1)
+
+
+
+# ### part six
+# from keras.datasets import mnist
+# import numpy as np
+# from sklearn.svm import SVC
+#
+#
+# (x_train, y_train), (x_test, y_test) = mnist.load_data()
+#
+# print(x_train.shape)
+#
+# x_train = np.array([np.ravel(x.astype(np.float32))/255.0 for x in x_train])
+# x_test = np.array([np.ravel(x.astype(np.float32))/255.0 for x in x_test])
+#
+#
+# clf = SVC(verbose=1)
+#
+# clf.fit(x_train, y_train)
+#
+# print(clf.score(x_test, y_test)*100)  ## accuracy
+
+
+
+
+
+
 
 
 # X, y = make_blobs(n_samples = 100, n_features=2, centers=2, cluster_std=1.2)
